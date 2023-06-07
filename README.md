@@ -41,11 +41,11 @@ while (!done) {
 
 ## Intended Use
 
-The main use-case for this library is communication via some sort of streaming serial interface, where there is no defined "frame". Be it simple UART or a Radio.
+The main use-case for this library is communication via some sort of streaming serial interface, where there is no defined "frame". Be it simple UART or radio.
 
 ## Diferences from the Original KISS
 
-The original KISS protocol is an adaptation of the Serial Line Internet Protocol (SLIP), adding special commands to configure TNCs. This versions, removes all predefined commands, but keeps the "command" field. So that you can still differentiate plain-old-data from a configuration command. What the configuration does is up to the user.
+The original KISS protocol is an adaptation of the Serial Line Internet Protocol (SLIP), adding special commands to configure TNCs. This version, removes all predefined commands, but keeps the "command" field. So that you can still differentiate plain-old-data from a configuration command. What the configuration does is up to the user.
 
 # Reference
 [Description of the KISS-TNC Protocol](http://www.ka9q.net/papers/kiss.html)
