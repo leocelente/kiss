@@ -1,4 +1,4 @@
-# Kiss
+# KISS
 
 **C implementation of the Keep-It-Simple-Stupid Terminal-Node-Controller (KISS-TNC) protocol**
 
@@ -19,7 +19,7 @@ $ make test
 
 ## Example 
 
-There is an example that communicates two executables using the `stdout` -> `stdin`. After building, run the `scripts/run_example.sh`
+There is an example that communicates two executables using the `stdout` -> Named Pipe -> `stdin`. After building, run the `scripts/run_example.sh`
 
 ### Transmitting
 
@@ -45,9 +45,10 @@ The main use-case for this library is communication via some sort of streaming s
 
 ## Diferences from the Original KISS
 
-The original KISS protocol is an adaptation of the Serial Line Internet Protocol (SLIP), adding special commands to configure TNCs. This versions, removes most of the commands, but keeps the "command" field. So that you can still differentiate plain-old-data from configuration. What the configuration does is up to the user.
+The original KISS protocol is an adaptation of the Serial Line Internet Protocol (SLIP), adding special commands to configure TNCs. This versions, removes all predefined commands, but keeps the "command" field. So that you can still differentiate plain-old-data from a configuration command. What the configuration does is up to the user.
 
 # Reference
 [Description of the KISS-TNC Protocol](http://www.ka9q.net/papers/kiss.html)
 
-[Wikipedia](https://en.wikipedia.org/wiki/KISS_(TNC))
+[Wikipedia KISS](https://en.wikipedia.org/wiki/KISS_(TNC))
+[Wikipedia SLIP](https://en.wikipedia.org/wiki/Serial_Line_Internet_Protocol)
