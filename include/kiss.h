@@ -6,6 +6,10 @@
 #ifndef KISS_H
 #define KISS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef enum {
   E_OK = 0,  /* No Error*/
   E_FAIL,    /* Generic Failure */
@@ -89,4 +93,9 @@ kiss_error_t kiss_ingest_byte(kiss_t *const kiss, uint8_t const byte);
 kiss_error_t kiss_send(kiss_t const * const kiss, kiss_cmd_t const cmd,
                        uint8_t const * const buffer, size_t const len);
 
+
+
+#ifdef __cplusplus
+}
+#endif
 #endif // KISS_H
