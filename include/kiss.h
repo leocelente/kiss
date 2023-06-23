@@ -30,10 +30,10 @@ typedef enum {
 } kiss_flag_t;
 
 typedef enum {
-  S_WAIT,    /* Waiting for data */
+  S_WAIT,    /* Waiting for start */
   S_COMMAND, /* Reading Command */
   S_BODY,    /* Receiving Message Body */
-  S_ESCAPE  /* Escaping Byte */
+  S_ESCAPE,  /* Escaping Byte */
 } kiss_state_t;
 
 typedef struct {

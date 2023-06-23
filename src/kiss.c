@@ -20,7 +20,6 @@ kiss_error_t kiss_ingest_byte(kiss_t *const kiss, uint8_t const input) {
     return E_OVERFLOW;
   }
 
-
   if (*state == S_WAIT && input == FEND) { /* start of frame */
     *state = S_COMMAND;
     return E_OK;
@@ -29,24 +28,26 @@ kiss_error_t kiss_ingest_byte(kiss_t *const kiss, uint8_t const input) {
     *state = S_BODY;
     return E_OK;
   } else if (*state == S_BODY && input == FEND) { /* end of frame */
-     kiss->callback(*cmd_type, kiss->rx_buffer, *index, false);
+    kiss->callback(*cmd_type, kiss->rx_buffer, *index, false);
     *index = 0;
     *state = S_WAIT;
     return E_OK;
   } else if (*state == S_BODY && input == FESC) { /* escape next value */
     *state = S_ESCAPE;
     return E_OK;
-  } else if (*state == S_BODY && input == TFESC) { /* escape escaping */
-    *state = S_ESCAPE;
+  } else if (*state == S_ESCAPE && input == TFESC) { 
+    kiss->rx_buffer[(*index)++] = FESC;
+    *state = S_BODY;
+    return E_OK;
+  } else if (*state == S_ESCAPE && input == TFEND) { 
+    kiss->rx_buffer[(*index)++] = FEND;
+    *state = S_BODY;
     return E_OK;
   } else if (*state == S_BODY) { /* push to rx buffer */
     kiss->rx_buffer[(*index)++] = input;
     return E_OK;
-  } else if (*state == S_ESCAPE) { /* push escaped value */
-    kiss->rx_buffer[(*index)++] = input;
-    *state = S_BODY;
-    return E_OK;
   } else {
+    *state = S_WAIT;
     return E_FAIL;
   }
 }
@@ -59,10 +60,12 @@ kiss_error_t kiss_send(kiss_t const *const kiss, kiss_cmd_t const cmd,
   for (int i = 0; i < len; ++i) {
     if (buffer[i] == FEND) {
       e |= kiss->sender(FESC);
-    } else if (buffer[i] == TFESC) {
-      e |= kiss->sender(FESC);
+      e |= kiss->sender(TFEND);
+      continue;
     } else if (buffer[i] == FESC) {
+      e |= kiss->sender(FESC);
       e |= kiss->sender(TFESC);
+      continue;
     }
     e |= kiss->sender(buffer[i]);
   }
